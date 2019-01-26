@@ -113,7 +113,7 @@ function AzeriteTooltip:SetupOptions()
             },
             bags = {
                 name = "Show traits in bags",
-                desc = "|cffaaaaaaShow two main traits on gear in bags (works only with Blizzard Bags). |r",
+                desc = "|cffaaaaaaShow two main traits on gear in bags (works only with Blizzard Bags and Bagnon). |r",
                 descStyle = "inline",
                 width = "full",
                 type = "toggle",
@@ -149,7 +149,11 @@ function AzeriteTooltip:OnEnable()
     self:SecureHook('ContainerFrame_Update')
 
     if IsAddOnLoaded("Bagnon") then
-    	hooksecurefunc(Bagnon.ItemSlot, "Update", function(self) AzeriteTooltip:SetContainerAzerite(self) end)
+    	hooksecurefunc(Bagnon.ItemSlot, "Update", function(self)
+    		if not AzeriteTooltip.db.profile.bags then return end
+    		 
+    		AzeriteTooltip:SetContainerAzerite(self) 
+    	end)
     end
 
     self:SecureHookScript(GameTooltip, 'OnTooltipSetItem', 'OnTooltipSetItem')
