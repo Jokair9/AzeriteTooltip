@@ -414,6 +414,10 @@ function AzeriteTooltip:BuildTooltip(self)
 					local azeritePowerName, _, icon = GetSpellInfo(azeriteSpellID)
 					local azeriteIcon = '|T'..icon..':20:20:0:0:64:64:4:60:4:60|t'
 					local azeriteTooltipText = "  "..azeriteIcon.."  "..azeritePowerName
+					
+					if AzeriteTooltip.ExternalDataSource then
+						azeriteTooltipText = azeriteTooltipText..AzeriteTooltip:ExternalDataSource(link, azeriteSpellID)
+					end
   
 					if tierLevel <= currentLevel then
 						if AzeriteTooltip:ScanSelectedTraits(self, azeritePowerName) then
